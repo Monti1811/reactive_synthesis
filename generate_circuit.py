@@ -1,86 +1,105 @@
-# We'll generate a DOT file format for Graphviz visualization of the circuit.
-# Parsing the provided AIGER circuit information and creating the corresponding graph structure.
-
+import re
 from graphviz import Digraph
 
-# Initialize a directed graph
-dot = Digraph(comment='AIGER Circuit')
 
-# Define inputs, latches, and outputs
-inputs = {
-    'i0': 'charging_complete',
-    'i1': 'call_from_0',
-    'i2': 'call_from_1',
-    'i3': 'call_from_2',
-    'i4': 'call_from_3'
-}
+def parse_aiger_file(file_content):
+    # Parse the header
+    lines = file_content.strip().split('\n')
+    header = lines[1].split()  # Example: ['aag', '31', '5', '3', '5', '23']
+    
+    inputs = []
+    latches = []
+    outputs = []
+    and_gates = []
 
-latches = {
-    'l0': 'l0',
-    'l1': 'l1',
-    'l2': 'l2'
-}
+    num_inputs = int(header[1])
+    num_latches = int(header[2])
+    num_outputs = int(header[3])
+    num_and_gates = int(header[4])
 
-outputs = {
-    'o0': 'deliver_power',
-    'o1': 'service_location_0',
-    'o2': 'service_location_1',
-    'o3': 'service_location_2',
-    'o4': 'service_location_3'
-}
+    # Extract the sections of inputs, latches, outputs, and AND gates
+    i = 2
+    current_section = 'inputs'
+    
+    while i < len(lines):
+        line = lines[i].strip()
+        if line.startswith('i'):
+            inputs.append(line)
+        elif line.startswith('l'):
+            latches.append(line)
+        elif line.startswith('o'):
+            outputs.append(line)
+        elif re.match(r'^\d+', line):
+            and_gates.append(line)
+        i += 1
 
-# AND gates represented as (output, input1, input2)
-and_gates = [
-    (18, 13, 15),
-    (20, 17, 18),
-    (22, 3, 21),
-    (24, 3, 14),
-    (26, 17, 24),
-    (28, 21, 27),
-    (30, 12, 24),
-    (32, 16, 31),
-    (34, 28, 33),
-    (36, 12, 14),
-    (38, 2, 37),
-    (40, 16, 39),
-    (42, 2, 40),
-    (44, 13, 26),
-    (46, 16, 18),
-    (48, 45, 47),
-    (50, 16, 19),
-    (52, 37, 50),
-    (54, 17, 30),
-    (56, 53, 55),
-    (58, 25, 40),
-    (60, 23, 35),
-    (62, 28, 53)
+    return inputs, latches, outputs, and_gates
+
+def render_aiger_graph(inputs, latches, outputs, and_gates):
+    # Initialize the graph
+    dot = Digraph(comment='AIGER Circuit')
+
+    # Add inputs
+    for input_signal in inputs:
+        input_id, signal_name = input_signal.split()
+        dot.node(input_id, label=signal_name, shape='ellipse')
+
+    # Add latches
+    for latch in latches:
+        latch_id, signal_name = latch.split()
+        dot.node(latch_id, label=signal_name, shape='box')
+
+    # Add outputs
+    for output in outputs:
+        output_id, signal_name = output.split()
+        dot.node(output_id, label=signal_name, shape='doublecircle')
+
+    # Add AND gates
+    for and_gate in and_gates:
+        components = and_gate.split()
+
+        if len(components) == 1:
+            # Gate has only an ID, no inputs
+            and_id = components[0]
+            dot.node(and_id, label=f'AND {and_id}', shape='diamond')
+        elif len(components) == 3:
+            # Gate has ID and two inputs
+            and_id, input1, input2 = components
+            dot.node(and_id, label=f'AND {and_id}', shape='diamond')
+            dot.edge(input1, and_id)
+            dot.edge(input2, and_id)
+        else:
+            # Unexpected format, you can log or handle the case
+            print(f"Unexpected AND gate format: {components}")
+
+    return dot
+
+files = [
+    't1_charging_robot',
+    't2_cargo_robot',
+    't3_helipad',
+    't4_ctr_controller',
 ]
 
-# Add input nodes
-for i, label in inputs.items():
-    dot.node(i, label, shape='ellipse')
+for filename in files:
+    # Try to open file and read it
+    try:
+        open("data/" + filename + ".aiger")
+    except FileNotFoundError:
+        print(f"File not found: {filename}")
+        continue
+    # Parse the AIGER file content
+    file_content = open("data/" + filename + ".aiger").read()
+    # If the file is empty, skip it
+    if not file_content:
+        print(f"File is empty: {filename}")
+        continue
+    inputs, latches, outputs, and_gates = parse_aiger_file(file_content)
 
-# Add latch nodes
-for l, label in latches.items():
-    dot.node(l, label, shape='box')
+    # Render the graph
+    dot = render_aiger_graph(inputs, latches, outputs, and_gates)
 
-# Add output nodes
-for o, label in outputs.items():
-    dot.node(o, label, shape='ellipse')
+    # Save the graph to a file and render it
+    dot.render("data/" + filename, format='png')
 
-# Add AND gate nodes
-for (output, input1, input2) in and_gates:
-    gate_label = f'AND_{output}'
-    dot.node(str(output), gate_label, shape='circle')
-    dot.edge(str(input1), str(output))
-    dot.edge(str(input2), str(output))
-
-# Generate the graph
-dot_data = dot.source
-dot_data
-
-
-print(dot_data)
-
-# Render the graph
-dot.render('circuit.png', view=True, format='png')
+    print(f"Graph saved to: {filename}.png")

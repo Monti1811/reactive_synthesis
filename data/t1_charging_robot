@@ -1,0 +1,95 @@
+// AIGER Circuit
+digraph {
+	i0 [label=charging_complete shape=ellipse]
+	i1 [label=call_from_0 shape=ellipse]
+	i2 [label=call_from_1 shape=ellipse]
+	i3 [label=call_from_2 shape=ellipse]
+	i4 [label=call_from_3 shape=ellipse]
+	l0 [label=l0 shape=box]
+	l1 [label=l1 shape=box]
+	l2 [label=l2 shape=box]
+	o0 [label=deliver_power shape=doublecircle]
+	o1 [label=service_location_0 shape=doublecircle]
+	o2 [label=service_location_1 shape=doublecircle]
+	o3 [label=service_location_2 shape=doublecircle]
+	o4 [label=service_location_3 shape=doublecircle]
+	2 [label="AND 2" shape=diamond]
+	4 [label="AND 4" shape=diamond]
+	6 [label="AND 6" shape=diamond]
+	8 [label="AND 8" shape=diamond]
+	10 [label="AND 10" shape=diamond]
+	22 [label="AND 22" shape=diamond]
+	34 [label="AND 34" shape=diamond]
+	42 [label="AND 42" shape=diamond]
+	49 [label="AND 49" shape=diamond]
+	57 [label="AND 57" shape=diamond]
+	18 [label="AND 18" shape=diamond]
+	13 -> 18
+	15 -> 18
+	20 [label="AND 20" shape=diamond]
+	17 -> 20
+	18 -> 20
+	22 [label="AND 22" shape=diamond]
+	3 -> 22
+	21 -> 22
+	24 [label="AND 24" shape=diamond]
+	3 -> 24
+	14 -> 24
+	26 [label="AND 26" shape=diamond]
+	17 -> 26
+	24 -> 26
+	28 [label="AND 28" shape=diamond]
+	21 -> 28
+	27 -> 28
+	30 [label="AND 30" shape=diamond]
+	12 -> 30
+	24 -> 30
+	32 [label="AND 32" shape=diamond]
+	16 -> 32
+	31 -> 32
+	34 [label="AND 34" shape=diamond]
+	28 -> 34
+	33 -> 34
+	36 [label="AND 36" shape=diamond]
+	12 -> 36
+	14 -> 36
+	38 [label="AND 38" shape=diamond]
+	2 -> 38
+	37 -> 38
+	40 [label="AND 40" shape=diamond]
+	16 -> 40
+	39 -> 40
+	42 [label="AND 42" shape=diamond]
+	2 -> 42
+	40 -> 42
+	44 [label="AND 44" shape=diamond]
+	13 -> 44
+	26 -> 44
+	46 [label="AND 46" shape=diamond]
+	16 -> 46
+	18 -> 46
+	48 [label="AND 48" shape=diamond]
+	45 -> 48
+	47 -> 48
+	50 [label="AND 50" shape=diamond]
+	16 -> 50
+	19 -> 50
+	52 [label="AND 52" shape=diamond]
+	37 -> 52
+	50 -> 52
+	54 [label="AND 54" shape=diamond]
+	17 -> 54
+	30 -> 54
+	56 [label="AND 56" shape=diamond]
+	53 -> 56
+	55 -> 56
+	58 [label="AND 58" shape=diamond]
+	25 -> 58
+	40 -> 58
+	60 [label="AND 60" shape=diamond]
+	23 -> 60
+	35 -> 60
+	62 [label="AND 62" shape=diamond]
+	28 -> 62
+	53 -> 62
+}
