@@ -1,0 +1,42 @@
+INFO {
+  TITLE:       "Vehicle Charging Robot"
+  DESCRIPTION: "Mobile charging station to be deployed on helipad"
+  SEMANTICS:   Mealy
+  TARGET:      Mealy
+}
+
+GLOBAL {
+  PARAMETERS {
+    // helipads
+    n = 4; 
+  }
+
+}
+
+MAIN {
+
+  INPUTS {
+    call_from[n]; // request from helipad
+
+    charging_complete; // vehicle is fully charged
+  } 
+
+  OUTPUTS {
+    service_location[n]; // service helipad
+
+    deliver_power; // to stationed vehicle
+  }
+
+  ASSERT {
+
+  }
+
+  ASSUME {
+    
+  }
+
+  GUARANTEES {
+    
+  }
+  
+}

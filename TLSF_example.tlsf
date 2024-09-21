@@ -1,0 +1,79 @@
+INFO {
+  TITLE:       "Example Arbiter"
+  DESCRIPTION: "This is a small example how you could use the TLSF format. It specifies an arbiter that can be turned on and off."
+  SEMANTICS:   Mealy
+  TARGET:      Mealy
+}
+
+GLOBAL {
+  // You can put parameters here.
+  // This allows you to write your specification in a parametric manner
+  PARAMETERS {
+    n = 3;
+  }
+}
+
+MAIN {
+
+  /*
+    In the next two blocks we define inputs and outputs
+  */
+
+  INPUTS {
+    start;      // Two boolean inputs
+    stop; 
+    req[n]      // A vector of n boolean inputs, 
+                // it ranges from req[0] to req[n-1]
+  } 
+
+  OUTPUTS {
+    active;     // A boolean output
+    grant[n];   // A vector of n boolean outputs
+  }
+
+  /*
+    In the next blocks we define assumptions and guarantees.
+    Each block is a list of LTL formula. For the final formula 
+    the formulas inside a block are conjuncted. We show how 
+    the formula is combined at the end of this file.
+  */
+ 
+  // This block contains assumptions 
+  ASSUME {
+    start;              
+    G !(start && stop);
+  }
+ 
+  // This block contains guarantees
+  GUARANTEES {
+    !active;
+  }
+
+  // This block also contains guarantees, but all inside a globally operator
+  ASSERT {
+    start -> X (active W stop);   // Be aware that the operator precedence is 
+    stop -> X (!active W start);   // sometimes a bit counter-intuitive
+
+    // This is a conjunction over all i from 0 to n-1
+    &&[0 <= i < n](req[i] && active -> F (grant[i] || stop));
+
+    // ... and we can even nest those
+    &&[0 <= i < n]( &&[i < j < n]( 
+        !(grant[i] && grant[j])
+    ));
+  }
+
+  /*
+     With the sections form above, the overall specification then has the form 
+        
+        a1 && a2 && ... al -> (G (ag1 && ag2 && ... agm)) && g1 && g2 ... && gn
+
+     for ASSUME := {a1; ... al; }, ASSERT := { ag1; .... agm; }, 
+     GURANTEES := { g1; ... gn; }
+
+     You can also print the resulting formula with
+
+        syfco -f ltl <TLSF-FILE>        
+
+  */ 
+}
