@@ -1,0 +1,99 @@
+\documentclass[	runningheads,
+				a4paper]{llncs}
+
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+% Support for special characters like "Umlaute"
+\usepackage[utf8]{inputenc}
+
+
+\usepackage[english]{babel}
+\usepackage[babel,german=quotes]{csquotes} % Für gute Anführungszeichen
+\usepackage{textcase}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{svg}
+\usepackage{pdfpages}
+\usepackage{listings}
+
+\lstset{%
+	basicstyle=\ttfamily,
+	breaklines = true,
+	tabsize=2,
+	firstnumber=1,
+	frame=single,
+	numbers=left
+}
+
+
+%*********************************************************************%
+% META                                                                %
+%*********************************************************************%
+
+\newcommand{\university}{Saarland University}
+\newcommand{\school}{Saarland Informatics Campus}
+
+
+\newcommand{\thetitle}{Project Report}
+\newcommand{\shorttitle}{Reactive Synthesis Project Report}
+\newcommand{\thedate}{September 27}
+
+\newcommand{\authoroneforename}{Tobias}
+\newcommand{\authoronesurname}{Wagenpfeil}
+\newcommand{\authortwoforename}{Timon}
+\newcommand{\authortwosurname}{Dörzapf}
+
+
+
+%*********************************************************************%
+% THE DOCUMENT                                                        %
+%*********************************************************************%
+
+\begin{document}
+%*********************************************************************%
+% TITLE                                                               %
+%*********************************************************************%
+
+% Arabic page numbering
+\mainmatter 
+	
+% Title including a subtitle for the name of the seminar
+\title{\thetitle}
+
+\author{\authoroneforename\ \authoronesurname \\ \authortwoforename\ \authortwosurname}
+
+% (Optional) This will appear near the page number
+\authorrunning{\shorttitle}
+\titlerunning{\shorttitle}
+
+\institute{\school ,\\ \university}
+
+
+\maketitle
+
+%*********************************************************************%
+% CONTENT                                                             %
+%*********************************************************************%
+
+
+
+%*********************************************************************%
+% APPENDIX                                                            %
+%*********************************************************************%
+
+\appendix
+\section{Appendix}
+% Insert the appendix here. You can alternatively include files via: \include{pathToFile}
+
+%*********************************************************************%
+% LITERATURE                                                          %
+%*********************************************************************%
+% As a recommendation JabRef might be a usefull tool for this section. Use myRefs.bib therefore
+\phantomsection
+\bibliographystyle{splncs03}
+\bibliography{literature}
+	
+\end{document}
