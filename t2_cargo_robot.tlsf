@@ -36,6 +36,8 @@ MAIN {
 
   ASSERT {
 
+	
+
     // if cargo is requested, the robot will handle the request
     &&[0 <= i < n](call_from[i] && !has_cargo -> F (service_warehouse[i]));
     &&[0 <= i < n](call_from[i] && has_cargo -> F (service_UAV[i]));
@@ -75,6 +77,7 @@ MAIN {
     !loaded;
     !serviced;
     &&[0 <= i < n](!(service_warehouse[i]));
+	&&[0 <= i < n](!(service_UAV[i]));
   }
   
 }

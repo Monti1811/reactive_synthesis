@@ -1,2 +1,37 @@
-REALIZABLE
-aag 0 0 0 0 0
+INFO {
+  TITLE:       "Controlled Traffic Regions"
+  DESCRIPTION: "Each CTR has a controller to regulate air traffic inside the zone. UAVs request entry into the CTR, and only one vehicle is allowed to be into the zone at any time. The controller grants permission to enter based on the previously mentioned priority. Should an emergency vehicle enter a CTR, a warning is issued to controllers of neighboring CTRs. A UAV can leave a CTR by moving to a neighboring CTR or by landing on a helipad."
+  SEMANTICS:   Mealy
+  TARGET:      Mealy
+}
+
+GLOBAL {
+  PARAMETERS {
+
+  }
+
+}
+
+MAIN {
+
+  INPUTS {
+
+  } 
+
+  OUTPUTS {
+
+  }
+
+  ASSERT {
+
+  }
+
+  ASSUME {
+    
+  }
+
+  GUARANTEES {
+    
+  }
+  
+}

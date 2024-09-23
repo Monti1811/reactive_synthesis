@@ -1,0 +1,51 @@
+INFO {
+  TITLE:       "Vehicle Cargo Robot"
+  DESCRIPTION: "A cargo robot transports, loads and unloads cargo. Cargo can be found in UAVs that have
+landed on helipads, and in the warehouse. Upon request by a helipad controller, the cargo robot
+should go to the helipad, unloads the cargo from the UAV, go to the warehouse and put the
+cargo there. Similarly, upon request, a cargo robot takes cargo from the warehouse, transports
+it to the helipad, and loads it into the UAV. A cargo robot can only transport a single piece of
+cargo at the time, i.e. if it is already transporting cargo it has to unload it until reloading cargo
+again. A single cargo robot is responsible for servicing 4 helipads."
+  SEMANTICS:   Mealy
+  TARGET:      Mealy
+}
+
+GLOBAL {
+  PARAMETERS {
+    // helipads
+    n = 4; 
+  }
+
+}
+
+MAIN {
+
+  INPUTS {
+    call_from[n]; // request from helipad
+  } 
+
+  OUTPUTS {
+    loaded;               // has cargo loaded or not
+    serviced;             // when the robot has finished loading the cargo to warehouse/UAV     
+
+  }
+
+  ASSERT {
+    // If the controller requests a task, it will be executed in the future
+	  &&[0 <= i < n](call_from[i]-> F loaded);
+    // The robot will remain loaded till it has finished to transport the cargo
+    loaded -> loaded U (serviced && !loaded);
+
+  }
+
+  ASSUME {
+    &&[0 <= i < n](G (!(loaded && call_from[i])));
+  }
+
+  GUARANTEES {
+    !loaded;
+    !serviced;
+  }
+  
+}
