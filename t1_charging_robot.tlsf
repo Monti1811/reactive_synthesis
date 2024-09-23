@@ -16,7 +16,7 @@ GLOBAL {
 MAIN {
 
   INPUTS {
-    call_from[n]; // request from helipad
+    call_from_charging[n]; // request from helipad
 
     charging_complete; // vehicle is fully charged
   } 
@@ -29,7 +29,7 @@ MAIN {
   // GLOBAL guarantees
   ASSERT {
     // if charging is requested, the robot will handle the request
-    &&[0 <= i < n](call_from[i] -> F (service_location[i]));
+    &&[0 <= i < n](call_from_charging[i] -> F (service_location[i]));
 
     // once the robot begins servicing a helipad, it has to complete the charging
     &&[0 <= i < n]((service_location[i]) -> (deliver_power U charging_complete));

@@ -15,23 +15,119 @@ GLOBAL {
 MAIN {
 
   INPUTS {
+	request_permission;
+	request_cargo;
+	UAV_has_cargo;
+	request_charging;
+	land;
+	launch;
+	helipad_free_from_objects;
 
+	// input from cargo robot
+	serviced;	
+					
+	// Types of UAVs
+	UAV_emergency;
+	UAV_passenger;
+	UAV_cargo;
   } 
 
   OUTPUTS {
+	permission_requested;
+	grant_permission;
+	occupied;
+	// Inputs of robots
+	call_from_charging;
+	call_from_cargo;
+	has_cargo;
+	charging_complete;
 
+	// Current requested UAV types
+	emergency;
+	passenger;
+	cargo;
   }
 
-  ASSERT {
-
-  }
 
   ASSUME {
-    
+
+	// A UAV can only land if there was a permission granted.
+	G (!(land && !grant_permission));
+
+	// Once a UAV requested a servic it is forbidden to leave until that service is fulfilled.
+	G (request_cargo -> !launch U serviced);
+	G (request_charging -> !launch U charging_complete);
+
+	// A UAV can only be of exactly one type.
+	G (
+		(UAV_emergency && !UAV_passenger && !UAV_cargo) ||
+		(!UAV_emergency && UAV_passenger && !UAV_cargo) ||
+		(!UAV_emergency && !UAV_passenger && UAV_cargo)
+	);
+  }
+  
+  ASSERT {
+	// Cannot give permission to land if helipad is occupied.
+	!(grant_permission && occupied);
+
+	// Store the request from the UAV till permission is granted
+	permission_requested -> permission_requested U grant_permission;
+
+	// If permission is requested, wait for helipad to be free of robots/persons
+	request_permission -> permission_requested && F helipad_free_from_objects;
+	request_permission && UAV_emergency -> emergency U launch;
+	request_permission && UAV_passenger -> passenger U launch;
+	request_permission && UAV_cargo -> cargo U launch;
+  
+	// Request should not be granted while helipad is not free of robots/persons
+	permission_requested -> ((!grant_permission) U (helipad_free_from_objects && !occupied));
+  
+	// If the helipad is empty and there was a request, we grant the access.
+	(helipad_free_from_objects && permission_requested) -> grant_permission;
+
+	// emergency && permission_requested -> grant_permission[2]
+	// !emergency && passenger && permission_requested -> grant_permission[1]
+	// !emergency && !passenger && cargo && permission_requested -> grant_permission[0]
+
+
+	// When the UAV has the permission, it lands eventually. Until that, the permission is granted.
+	grant_permission -> grant_permission U (land && grant_permission);
+
+	// If the UAV lands while having permission, set the helipad to occupied
+	land && grant_permission -> occupied;
+
+	// If the UAV wants to be charged, request a charge from a charging robot and 
+	// send charging_complete once charging is done
+	occupied && request_charging -> call_from_charging && F charging_complete;
+
+	// If the UAV wants to transport cargo, request a cargo transport from a cargo 
+	// robot and set the has_cargo var to the one of the UAV
+	occupied && (!emergency && !passenger && cargo) && request_cargo -> call_from_cargo && (UAV_has_cargo <-> has_cargo);
+
+	
+	// Helipad stays occupied till UAV launches
+	occupied -> occupied U launch;
+	launch -> !occupied && !emergency && !passenger && !cargo;
+
+	// Types stay empty till new request sets them
+	!emergency U UAV_emergency;
+	!passenger U UAV_passenger;
+	!cargo U UAV_cargo;
+  
   }
 
   GUARANTEES {
-    
+	!occupied;
+	!permission_requested;
+	!grant_permission;
+	!emergency;
+	!passenger;
+	!cargo;
+
+	!call_from_charging;
+	!call_from_cargo;
+	!has_cargo;
+	!charging_complete;
   }
   
 }
