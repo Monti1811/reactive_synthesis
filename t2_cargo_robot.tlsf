@@ -23,7 +23,7 @@ MAIN {
 
   INPUTS {
     call_from[n]; // request from helipad
-    has_cargo;     // If it has a load, needs to be unloaded else needs to be loaded
+    has_cargo[n];     // If it has a load, needs to be unloaded else needs to be loaded
   } 
 
   OUTPUTS {
@@ -36,11 +36,12 @@ MAIN {
 
   ASSERT {
 
-	
+    // If no service is active, the robot is not loaded
+    &&[0 <= i < n](!(service_warehouse[i] || service_UAV[i])) -> !loaded;
 
     // if cargo is requested, the robot will handle the request
-    &&[0 <= i < n](call_from[i] && !has_cargo -> F (service_warehouse[i]));
-    &&[0 <= i < n](call_from[i] && has_cargo -> F (service_UAV[i]));
+    &&[0 <= i < n](call_from[i] && !has_cargo[i] -> F (service_warehouse[i]));
+    &&[0 <= i < n](call_from[i] && has_cargo[i] -> F (service_UAV[i]));
 
     // the robot loads the cargo if it receives the service request
     &&[0 <= i < n]((service_warehouse[i] || service_UAV[i]) -> loaded);
@@ -64,8 +65,10 @@ MAIN {
     !(||[0 <= i < n](service_warehouse[i]) && ||[0 <= i < n](service_UAV[i]));
 
     // the robot has unloaded its load in the warehouse or UAV
-  	loaded -> F serviced;
-    &&[0 <= i < n](serviced -> !(service_warehouse[i]) && !(service_UAV[i]));
+  	loaded -> loaded U serviced;
+    &&[0 <= i < n](serviced -> !(service_warehouse[i]) && !(service_UAV[i]) && !loaded);
+
+    
 
   }
 
