@@ -56,6 +56,12 @@ MAIN {
 
   ASSUME {
 
+	// We can only start requested permissions after the first round (design decision)
+	!request_permission;
+
+	// We can not request robots if the helipad is not occupied
+	G (!occupied -> !(request_cargo || request_charging));
+
 	// A UAV can only land if there was a permission granted.
 	G (&&[0 <= i < n](!(land && !grant_permission[i])));
 
@@ -69,6 +75,15 @@ MAIN {
 		(!UAV_emergency && UAV_passenger && !UAV_cargo) ||
 		(!UAV_emergency && !UAV_passenger && UAV_cargo)
 	);
+
+	// If a UAV sends a request it also has to send its type.
+	G (request_permission -> (UAV_emergency || UAV_passenger || UAV_cargo));
+
+	&&[0 <= i < n](G (grant_permission[i] -> F land));
+	G (occupied -> F launch);
+
+	// We can only launch if the helipad is occupied
+	G (occupied || !launch);
   }
   
   ASSERT {

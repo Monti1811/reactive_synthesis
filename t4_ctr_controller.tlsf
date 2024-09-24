@@ -59,6 +59,9 @@ MAIN {
 
 	&&[0 <= i < n](G (grant_entry[i] -> F enter));
 	G (occupied -> F (leave || land));
+
+	// We can only leave or land if the helipad is occupied
+	G (occupied || !(leave || land));
     
   }
 
