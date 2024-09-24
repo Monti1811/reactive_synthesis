@@ -1,0 +1,185 @@
+// AIGER Circuit
+digraph {
+	i0 [label=UAV_cargo shape=ellipse]
+	i1 [label=UAV_passenger shape=ellipse]
+	i2 [label=UAV_emergency shape=ellipse]
+	i3 [label=land shape=ellipse]
+	i4 [label=leave shape=ellipse]
+	i5 [label=enter shape=ellipse]
+	i6 [label=request_entry shape=ellipse]
+	l0 [label=l0 shape=box]
+	l1 [label=l1 shape=box]
+	l2 [label=l2 shape=box]
+	o0 [label=cargo shape=doublecircle]
+	o1 [label=passenger shape=doublecircle]
+	o2 [label=emergency shape=doublecircle]
+	o3 [label=occupied shape=doublecircle]
+	o4 [label=entry_requested shape=doublecircle]
+	o5 [label=alert_neighbor_0 shape=doublecircle]
+	o6 [label=alert_neighbor_1 shape=doublecircle]
+	o7 [label=alert_neighbor_2 shape=doublecircle]
+	o8 [label=alert_neighbor_3 shape=doublecircle]
+	o9 [label=grant_entry_0 shape=doublecircle]
+	o10 [label=grant_entry_1 shape=doublecircle]
+	o11 [label=grant_entry_2 shape=doublecircle]
+	2 [label="AND 2" shape=diamond]
+	4 [label="AND 4" shape=diamond]
+	6 [label="AND 6" shape=diamond]
+	8 [label="AND 8" shape=diamond]
+	10 [label="AND 10" shape=diamond]
+	12 [label="AND 12" shape=diamond]
+	14 [label="AND 14" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	53 [label="AND 53" shape=diamond]
+	101 [label="AND 101" shape=diamond]
+	98 [label="AND 98" shape=diamond]
+	22 [label="AND 22" shape=diamond]
+	5 -> 22
+	7 -> 22
+	24 [label="AND 24" shape=diamond]
+	4 -> 24
+	6 -> 24
+	26 [label="AND 26" shape=diamond]
+	23 -> 26
+	25 -> 26
+	28 [label="AND 28" shape=diamond]
+	3 -> 28
+	26 -> 28
+	30 [label="AND 30" shape=diamond]
+	2 -> 30
+	22 -> 30
+	32 [label="AND 32" shape=diamond]
+	29 -> 32
+	31 -> 32
+	34 [label="AND 34" shape=diamond]
+	15 -> 34
+	17 -> 34
+	36 [label="AND 36" shape=diamond]
+	19 -> 36
+	21 -> 36
+	38 [label="AND 38" shape=diamond]
+	35 -> 38
+	36 -> 38
+	40 [label="AND 40" shape=diamond]
+	12 -> 40
+	39 -> 40
+	42 [label="AND 42" shape=diamond]
+	33 -> 42
+	40 -> 42
+	44 [label="AND 44" shape=diamond]
+	18 -> 44
+	33 -> 44
+	46 [label="AND 46" shape=diamond]
+	13 -> 46
+	17 -> 46
+	48 [label="AND 48" shape=diamond]
+	20 -> 48
+	46 -> 48
+	50 [label="AND 50" shape=diamond]
+	44 -> 50
+	48 -> 50
+	52 [label="AND 52" shape=diamond]
+	43 -> 52
+	51 -> 52
+	54 [label="AND 54" shape=diamond]
+	20 -> 54
+	33 -> 54
+	56 [label="AND 56" shape=diamond]
+	19 -> 56
+	54 -> 56
+	58 [label="AND 58" shape=diamond]
+	35 -> 58
+	45 -> 58
+	60 [label="AND 60" shape=diamond]
+	21 -> 60
+	59 -> 60
+	62 [label="AND 62" shape=diamond]
+	9 -> 62
+	11 -> 62
+	64 [label="AND 64" shape=diamond]
+	33 -> 64
+	62 -> 64
+	66 [label="AND 66" shape=diamond]
+	17 -> 66
+	65 -> 66
+	68 [label="AND 68" shape=diamond]
+	16 -> 68
+	27 -> 68
+	70 [label="AND 70" shape=diamond]
+	18 -> 70
+	69 -> 70
+	72 [label="AND 72" shape=diamond]
+	67 -> 72
+	70 -> 72
+	74 [label="AND 74" shape=diamond]
+	15 -> 74
+	73 -> 74
+	76 [label="AND 76" shape=diamond]
+	65 -> 76
+	74 -> 76
+	78 [label="AND 78" shape=diamond]
+	60 -> 78
+	77 -> 78
+	80 [label="AND 80" shape=diamond]
+	57 -> 80
+	79 -> 80
+	82 [label="AND 82" shape=diamond]
+	13 -> 82
+	81 -> 82
+	84 [label="AND 84" shape=diamond]
+	59 -> 84
+	75 -> 84
+	86 [label="AND 86" shape=diamond]
+	5 -> 86
+	15 -> 86
+	88 [label="AND 88" shape=diamond]
+	16 -> 88
+	19 -> 88
+	90 [label="AND 90" shape=diamond]
+	86 -> 90
+	88 -> 90
+	92 [label="AND 92" shape=diamond]
+	62 -> 92
+	90 -> 92
+	94 [label="AND 94" shape=diamond]
+	54 -> 94
+	93 -> 94
+	96 [label="AND 96" shape=diamond]
+	85 -> 96
+	95 -> 96
+	98 [label="AND 98" shape=diamond]
+	82 -> 98
+	97 -> 98
+	100 [label="AND 100" shape=diamond]
+	43 -> 100
+	99 -> 100
+	102 [label="AND 102" shape=diamond]
+	28 -> 102
+	34 -> 102
+	104 [label="AND 104" shape=diamond]
+	96 -> 104
+	103 -> 104
+	106 [label="AND 106" shape=diamond]
+	13 -> 106
+	105 -> 106
+	108 [label="AND 108" shape=diamond]
+	31 -> 108
+	74 -> 108
+	110 [label="AND 110" shape=diamond]
+	60 -> 110
+	109 -> 110
+	112 [label="AND 112" shape=diamond]
+	55 -> 112
+	111 -> 112
+	114 [label="AND 114" shape=diamond]
+	13 -> 114
+	113 -> 114
+}

@@ -37,10 +37,10 @@ aag 31 5 3 5 23
 60 23 35
 62 28 53
 i0 charging_complete
-i1 call_from_0
-i2 call_from_1
-i3 call_from_2
-i4 call_from_3
+i1 call_from_charging_0
+i2 call_from_charging_1
+i3 call_from_charging_2
+i4 call_from_charging_3
 l0 l0
 l1 l1
 l2 l2

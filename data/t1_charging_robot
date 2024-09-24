@@ -1,10 +1,10 @@
 // AIGER Circuit
 digraph {
 	i0 [label=charging_complete shape=ellipse]
-	i1 [label=call_from_0 shape=ellipse]
-	i2 [label=call_from_1 shape=ellipse]
-	i3 [label=call_from_2 shape=ellipse]
-	i4 [label=call_from_3 shape=ellipse]
+	i1 [label=call_from_charging_0 shape=ellipse]
+	i2 [label=call_from_charging_1 shape=ellipse]
+	i3 [label=call_from_charging_2 shape=ellipse]
+	i4 [label=call_from_charging_3 shape=ellipse]
 	l0 [label=l0 shape=box]
 	l1 [label=l1 shape=box]
 	l2 [label=l2 shape=box]
