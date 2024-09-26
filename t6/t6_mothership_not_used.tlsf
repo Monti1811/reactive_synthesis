@@ -1,0 +1,50 @@
+Mutterschiff: 
+
+Das Mutterschiff braucht 2 Helipads zum Landen.
+Das Mutterschiff hat eine eigene Priorität, weniger wichtig als Rettungs UAVs aber wichtiger als Passenger UAVs.
+Das Mutterschiff kann Cargo anfordern/abladen und Passagiere abladen/aufladen.
+Das Mutterschiff braucht eine Supercharge vom Laderoboter.
+
+
+
+INFO {
+  TITLE:       ""
+  DESCRIPTION: ""
+  SEMANTICS:   Mealy
+  TARGET:      Mealy
+}
+
+GLOBAL {
+  PARAMETERS {
+
+  }
+
+}
+
+MAIN {
+
+  INPUTS {
+
+  } 
+
+  OUTPUTS {
+
+  }
+  
+  ASSUME {
+
+    
+  }
+
+  ASSERT {
+
+
+  }
+
+
+  GUARANTEES {
+
+
+  }
+  
+}

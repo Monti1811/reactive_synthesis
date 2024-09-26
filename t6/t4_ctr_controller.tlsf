@@ -1,0 +1,138 @@
+INFO {
+  TITLE:       "Controlled Traffic Regions"
+  DESCRIPTION: "Each CTR has a controller to regulate air traffic inside the zone. UAVs request entry into the CTR, and only one vehicle is allowed to be into the zone at any time. The controller grants permission to enter based on the previously mentioned priority. Should an emergency vehicle enter a CTR, a warning is issued to controllers of neighboring CTRs. A UAV can leave a CTR by moving to a neighboring CTR or by landing on a helipad."
+  SEMANTICS:   Mealy
+  TARGET:      Mealy
+}
+
+GLOBAL {
+  PARAMETERS {
+	n = 3; 			// types of priority
+	o = 4;			// neighbors
+  }
+
+}
+
+MAIN {
+
+  INPUTS {
+	request_entry;
+	enter;
+	leave;
+	land;
+
+	// Types of UAVs
+	UAV_emergency;
+	UAV_passenger;
+	UAV_cargo;
+  } 
+
+  OUTPUTS {
+	entry_requested;
+	grant_entry[n];
+	//revoke_entry[n];
+	alert_neighbor[o];
+	occupied;
+
+	// Current requested UAV types
+	emergency;
+	passenger;
+	cargo;
+  }
+  
+  ASSUME {
+
+	// We only let request after the first round (design choice)
+	!request_entry;
+
+	// A UAV can only enter if there was a permission granted.
+	G (&&[0 <= i < n](!(enter && !grant_entry[i])));
+
+	// A UAV can only be of exactly one type.
+	G (
+		(UAV_emergency && !UAV_passenger && !UAV_cargo) ||
+		(!UAV_emergency && UAV_passenger && !UAV_cargo) ||
+		(!UAV_emergency && !UAV_passenger && UAV_cargo)
+	);
+
+	// If a UAV sends a request it also has to send its type.
+	G (request_entry -> (UAV_emergency || UAV_passenger || UAV_cargo));
+
+	// Once entry is granted, the UAV will enter eventually
+	&&[0 <= i < n](G (grant_entry[i] -> F enter));
+
+	// If the CTR is occupied, the UAV will either leave or land eventually
+	G (occupied -> F (leave || land));
+
+	// We can only leave or land if the helipad is occupied
+	G (occupied || !(leave || land));
+
+	// Only one UAV of each type can request to enter the CTR
+	G (emergency -> !(UAV_emergency && request_entry));
+	G (passenger -> !(UAV_passenger && request_entry));
+	G (cargo -> !(UAV_cargo && request_entry));
+    
+  }
+
+  ASSERT {
+	// Only max one grant can be active at the time
+	(grant_entry[2] && !grant_entry[1] && !grant_entry[0]) || 
+		(!grant_entry[2] && grant_entry[1] && !grant_entry[0]) ||
+		(!grant_entry[2] && !grant_entry[1] && grant_entry[0]) || 
+		(!grant_entry[2] && !grant_entry[1] && !grant_entry[0]);
+
+	// Cannot give permission to enter if CTR is occupied.
+	&&[0 <= i < n](!(grant_entry[i] && occupied));
+
+
+	// If permission is requested, grant the correct one eventually and save the current type of UAV
+	request_entry && UAV_emergency -> emergency U (leave || land);
+	request_entry && UAV_passenger -> passenger U (leave || land);
+	request_entry && UAV_cargo -> cargo U (leave || land);
+	request_entry -> F (
+							(emergency && grant_entry[2]) || 
+							(!emergency && passenger && grant_entry[1]) ||
+							(!emergency && !passenger && cargo && grant_entry[0])
+						);
+
+	
+	
+	// When the UAV has the permission, it will enter eventually. Until then, the permission is granted.
+	&&[0 <= i < n](grant_entry[i] -> grant_entry[i] U (enter && grant_entry[i]));
+
+	// If there is space in the CTR, there is space until a UAV enters the CTR.
+	!occupied -> !occupied U (enter && (||[0 <= i < n](grant_entry[i])));
+
+	// If the UAV enters while having permission, set the CTR to occupied
+	&&[0 <= i < n](enter && grant_entry[i] -> occupied);
+	
+	// If the UAV is an emergency UAV, alert all neighbors of it
+	enter && emergency -> &&[0 <= i < n](alert_neighbor[i]);
+
+	// CTR stays occupied till UAV leaves or lands
+	occupied -> occupied U (leave || land);
+	(leave || land) -> !occupied && !emergency && !passenger && !cargo;
+
+
+	// Types stay empty till new request sets them
+	!emergency U UAV_emergency;
+	!passenger U UAV_passenger;
+	!cargo U UAV_cargo;
+
+  }
+
+
+  GUARANTEES {
+
+
+    !occupied;
+	&&[0 <= i < n](!grant_entry[i]);
+	!emergency;
+	!passenger;
+	!cargo;
+	&&[0 <= i < n](!alert_neighbor[i]);
+	!entry_requested;
+
+  }
+  
+}

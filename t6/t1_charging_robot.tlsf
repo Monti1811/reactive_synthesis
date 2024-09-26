@@ -1,0 +1,61 @@
+INFO {
+  TITLE:       "Vehicle Charging Robot"
+  DESCRIPTION: "Mobile charging station to be deployed on helipad"
+  SEMANTICS:   Mealy
+  TARGET:      Mealy
+}
+
+GLOBAL {
+  PARAMETERS {
+    // helipads
+    n = 4; 
+  }
+
+}
+
+MAIN {
+
+  INPUTS {
+    call_from_charging[n]; // request from helipad
+
+    charging_complete; // vehicle is fully charged
+  } 
+
+  OUTPUTS {
+    service_location[n]; // service helipad
+    deliver_power; // to stationed vehicle
+  }
+
+  // GLOBAL guarantees
+  ASSERT {
+    // if charging is requested, the robot will handle the request
+    &&[0 <= i < n](call_from_charging[i] -> F (service_location[i]));
+
+    // once the robot begins servicing a helipad, it has to complete the charging
+    &&[0 <= i < n]((service_location[i]) -> (deliver_power U charging_complete));
+
+    &&[0 <= i < n](!(service_location[i])) -> !deliver_power;
+
+    // the robot can service at most one helipad at any given time
+    (service_location[0] && !service_location[1] && !service_location[2] && !service_location[3]) ||       (!service_location[0] && service_location[1] && !service_location[2] && !service_location[3]) ||        (!service_location[0] && !service_location[1] && service_location[2] && !service_location[3]) ||        (!service_location[0] && !service_location[1] && !service_location[2] && service_location[3]) ||      (&&[0 <= i < n](!(service_location[i])));
+
+
+
+    // Im Tut nachfragen
+    // service_locations should be inactive once charging is completed
+    //&&[0 <= i < n](charging_complete -> X (!service_location[i]))
+ 
+  }
+
+  // Assumption
+  ASSUME {
+    G (deliver_power -> F charging_complete);
+  }
+
+  GUARANTEES {
+    !deliver_power;
+    &&[0 <= i < n](!(service_location[i]));
+  }
+  
+}
+

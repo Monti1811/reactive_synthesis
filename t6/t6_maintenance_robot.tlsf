@@ -1,0 +1,68 @@
+# Aufpassen dass Assumptions sich nicht gegenseitig ausschließen, das das Schiff auf jden Fall irgendwann starten kann, also das der Roboter die Cargo auf jeden Fall bringt und der Roboter auf jeden Fall das Schiff repariert.
+
+INFO {
+  TITLE:       "Maintenance Robot"
+  DESCRIPTION: "Der Maintenance Robot ist 8 Helipads zugeteilt.
+Er kann ein Schiff auf Schäden untersuchen und Probleme finden.
+Wenn er erkennt, dass das Schiff einen Fehler hat, kann das Schiff nicht mehr starten und muss erst vom Roboter repariert werden.
+Der Cargo Roboter muss angefordert werden, um vom Warehouse Ersatzteile anzufordern. Wenn diese da sind, kann der Maintenance Roboter das UAV reparieren, so dass es wieder losfliegen darf.
+Der Cargo Roboter muss angefordert werden, um vom Warehouse Ersatzteile anzufordern. Wenn diese da sind, kann der Maintenance Roboter das UAV reparieren, so dass es wieder losfliegen darf."
+  SEMANTICS:   Mealy
+  TARGET:      Mealy
+}
+
+GLOBAL {
+  PARAMETERS {
+    n = 8;  
+  }
+
+}
+
+MAIN {
+
+  INPUTS {
+    call_from_maintenance[n]; // request from helipad
+    serviced;                 // Responce of cargo robot when bringing spare parts;
+    launch;                   // launch command of the UAV
+  } 
+
+  OUTPUTS {
+    do_maintenance[n];        // Check the UAV for defects
+    maintenance_finished;     // True if the maintenance was concluded
+    defect_detected;          // If the UAV has a defect
+    call_from_spare_parts[n]; // Call to the cargo robot for spare parts
+    repaired;                 // True if the UAV is successfully repaired
+
+  }
+  
+  ASSUME {
+
+    G (defect_detected -> !launch U repaired);  // Cannot launch till UAV is repaired
+
+    
+  }
+
+  ASSERT {
+    // if maintenance is requested, the robot will handle the request eventually
+    &&[0 <= i < n](call_from_maintenance[i] -> F (do_maintenance[i]));
+
+    // once the robot begins servicing a helipad, it has to complete the maintenance
+    &&[0 <= i < n]((do_maintenance[i]) -> (do_maintenance[i] U maintenance_finished || defect_detected));
+
+    // Once a defect has been found, the maintenance continues till a maintenance_finished has been set
+    defect_detected -> &&[0 <= i < n]((do_maintenance[i] U maintenance_finished));
+
+    // As long a defect is there, we cannot finish the maintenance
+    defect_detected -> !maintenance_finished;
+
+
+
+  }
+
+
+  GUARANTEES {
+
+
+  }
+  
+}

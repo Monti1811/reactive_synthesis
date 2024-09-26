@@ -1,0 +1,87 @@
+INFO {
+  TITLE:       "Vehicle Cargo Robot"
+  DESCRIPTION: "A cargo robot transports, loads and unloads cargo. Cargo can be found in UAVs that have
+landed on helipads, and in the warehouse. Upon request by a helipad controller, the cargo robot
+should go to the helipad, unloads the cargo from the UAV, go to the warehouse and put the
+cargo there. Similarly, upon request, a cargo robot takes cargo from the warehouse, transports
+it to the helipad, and loads it into the UAV. A cargo robot can only transport a single piece of
+cargo at the time, i.e. if it is already transporting cargo it has to unload it until reloading cargo
+again. A single cargo robot is responsible for servicing 4 helipads."
+  SEMANTICS:   Mealy
+  TARGET:      Mealy
+}
+
+GLOBAL {
+  PARAMETERS {
+    // helipads
+    n = 4; 
+  }
+
+}
+
+MAIN {
+
+  INPUTS {
+    call_from_cargo[n]; 	  // request from helipad
+    has_cargo[n];     // If it has a load, needs to be unloaded else needs to be loaded
+    call_from_spare_parts[n];
+  } 
+
+  OUTPUTS {
+    service_warehouse[n]; // service warehouse, transports from warehouse to UAV
+    service_UAV[n];       // service UAV, transports from UAV to warehouse
+    loaded;               // has cargo loaded or not
+    serviced;             // when the robot has finished loading the cargo to warehouse/UAV     
+
+  }
+
+  ASSERT {
+
+    // If no service is active, the robot is not loaded
+    &&[0 <= i < n](!(service_warehouse[i] || service_UAV[i])) -> !loaded;
+
+    // if cargo is requested, the robot will handle the request
+    &&[0 <= i < n](call_from_cargo[i] && !has_cargo[i] -> F (service_warehouse[i]));
+    &&[0 <= i < n](call_from_cargo[i] && has_cargo[i] -> F (service_UAV[i]));
+
+    // the robot loads the cargo if it receives the service request
+    &&[0 <= i < n]((service_warehouse[i] || service_UAV[i]) -> loaded);
+
+
+    // the robot can service at most one helipad at any given time
+    (service_warehouse[0] && !service_warehouse[1] && !service_warehouse[2] && !service_warehouse[3]) ||
+    (!service_warehouse[0] && service_warehouse[1] && !service_warehouse[2] && !service_warehouse[3]) ||        
+    (!service_warehouse[0] && !service_warehouse[1] && service_warehouse[2] && !service_warehouse[3]) ||
+    (!service_warehouse[0] && !service_warehouse[1] && !service_warehouse[2] && service_warehouse[3]) ||
+    (&&[0 <= i < n](!(service_warehouse[i])));
+
+    // the robot can service at most one helipad at any given time
+    (service_UAV[0] && !service_UAV[1] && !service_UAV[2] && !service_UAV[3]) ||
+    (!service_UAV[0] && service_UAV[1] && !service_UAV[2] && !service_UAV[3]) ||        
+    (!service_UAV[0] && !service_UAV[1] && service_UAV[2] && !service_UAV[3]) ||
+    (!service_UAV[0] && !service_UAV[1] && !service_UAV[2] && service_UAV[3]) ||
+    (&&[0 <= i < n](!(service_UAV[i])));
+
+    // service_warehouse and service_UAV can't be active at the same time
+    !(||[0 <= i < n](service_warehouse[i]) && ||[0 <= i < n](service_UAV[i]));
+
+    // the robot has unloaded its load in the warehouse or UAV
+  	loaded -> loaded U serviced;
+    &&[0 <= i < n](serviced -> !(service_warehouse[i]) && !(service_UAV[i]) && !loaded);
+
+    
+
+  }
+
+  ASSUME {
+    
+  }
+
+  GUARANTEES {
+    !loaded;
+    !serviced;
+    &&[0 <= i < n](!(service_warehouse[i]));
+	&&[0 <= i < n](!(service_UAV[i]));
+  }
+  
+}
