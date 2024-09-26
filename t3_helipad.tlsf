@@ -26,8 +26,6 @@ MAIN {
 
 	// input from cargo robot
 	serviced;	
-
-	UAV_id;
 					
 	// Types of UAVs
 	UAV_emergency;
@@ -44,8 +42,6 @@ MAIN {
 	call_from_cargo;
 	has_cargo;
 	charging_complete;
-
-	id;
 
 	// Current requested UAV types
 	emergency;
@@ -65,7 +61,7 @@ MAIN {
 	// A UAV can only land if there was a permission granted.
 	G (&&[0 <= i < n](!(land && !grant_permission[i])));
 
-	// Once a UAV requested a servic it is forbidden to leave until that service is fulfilled.
+	// Once a UAV requested a service it is forbidden to leave until that service is fulfilled.
 	G (request_cargo -> !launch U serviced);
 	G (request_charging -> !launch U charging_complete);
 
@@ -84,6 +80,12 @@ MAIN {
 
 	// We can only launch if the helipad is occupied
 	G (occupied || !launch);
+
+  // Only one UAV of each type can request to enter the CTR
+	G (emergency -> !(UAV_emergency && request_entry));
+	G (passenger -> !(UAV_passenger && request_entry));
+	G (cargo -> !(UAV_cargo && request_entry));
+
   }
   
   ASSERT {

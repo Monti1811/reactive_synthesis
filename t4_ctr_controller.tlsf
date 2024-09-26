@@ -42,6 +42,7 @@ MAIN {
   
   ASSUME {
 
+	// We only let request after the first round (design choice)
 	!request_entry;
 
 	// A UAV can only enter if there was a permission granted.
@@ -57,11 +58,19 @@ MAIN {
 	// If a UAV sends a request it also has to send its type.
 	G (request_entry -> (UAV_emergency || UAV_passenger || UAV_cargo));
 
+	// Once entry is granted, the UAV will enter eventually
 	&&[0 <= i < n](G (grant_entry[i] -> F enter));
+
+	// If the CTR is occupied, the UAV will either leave or land eventually
 	G (occupied -> F (leave || land));
 
 	// We can only leave or land if the helipad is occupied
 	G (occupied || !(leave || land));
+
+	// Only one UAV of each type can request to enter the CTR
+	G (emergency -> !(UAV_emergency && request_entry));
+	G (passenger -> !(UAV_passenger && request_entry));
+	G (cargo -> !(UAV_cargo && request_entry));
     
   }
 

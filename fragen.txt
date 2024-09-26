@@ -1,3 +1,4 @@
 Ist ID notwending um zu sagen, dass wir einem speziellen UAV die Genehmigung schicken, oder reicht es, dass wir eine Genehmigung für eine bestimmte Priority senden und die das unter sich ausmachen?
+-Ja oder Assumptions ändern so dass es keine der selben priority gleichzeitig requesten können
 
 Nachfragen für task 4 ob das so passt
