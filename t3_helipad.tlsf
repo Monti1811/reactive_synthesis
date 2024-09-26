@@ -75,16 +75,20 @@ MAIN {
 	// If a UAV sends a request it also has to send its type.
 	G (request_permission -> (UAV_emergency || UAV_passenger || UAV_cargo));
 
+	// If permission is granted, the UAV will land eventually and also launch again eventually.
 	&&[0 <= i < n](G (grant_permission[i] -> F land));
 	G (occupied -> F launch);
 
 	// We can only launch if the helipad is occupied
 	G (occupied || !launch);
 
-  // Only one UAV of each type can request to enter the CTR
-	G (emergency -> !(UAV_emergency && request_entry));
-	G (passenger -> !(UAV_passenger && request_entry));
-	G (cargo -> !(UAV_cargo && request_entry));
+	// Only one UAV of each type can request to enter the CTR
+	G (emergency -> !(UAV_emergency && request_permission));
+	G (passenger -> !(UAV_passenger && request_permission));
+	G (cargo -> !(UAV_cargo && request_permission));
+
+	// The helipad will be free from objects infinitely often
+	G (F helipad_free_from_objects);
 
   }
   
@@ -111,12 +115,11 @@ MAIN {
 	&&[0 <= i < n](permission_requested -> ((!grant_permission[i]) U (helipad_free_from_objects && !occupied)));
   
 	// If the helipad is empty and there was a request, we grant the access.
-	//(helipad_free_from_objects && permission_requested) -> grant_permission;
 	emergency && permission_requested && helipad_free_from_objects -> grant_permission[2];
 	!emergency && passenger && permission_requested && helipad_free_from_objects -> grant_permission[1];
 	!emergency && !passenger && cargo && permission_requested && helipad_free_from_objects -> grant_permission[0];
 
-	// When the UAV has the permission, it lands eventually. Until that, the permission is granted.
+	// When the UAV has the permission, it lands eventually. Until then, the permission is granted.
 	&&[0 <= i < n](grant_permission[i] -> grant_permission[i] U (land && grant_permission[i]));
 
 	// If the UAV lands while having permission, set the helipad to occupied

@@ -11,14 +11,13 @@ digraph {
 	o1 [label=passenger shape=doublecircle]
 	o2 [label=emergency shape=doublecircle]
 	o3 [label=occupied shape=doublecircle]
-	o4 [label=entry_requested shape=doublecircle]
-	o5 [label=alert_neighbor_0 shape=doublecircle]
-	o6 [label=alert_neighbor_1 shape=doublecircle]
-	o7 [label=alert_neighbor_2 shape=doublecircle]
-	o8 [label=alert_neighbor_3 shape=doublecircle]
-	o9 [label=grant_entry_0 shape=doublecircle]
-	o10 [label=grant_entry_1 shape=doublecircle]
-	o11 [label=grant_entry_2 shape=doublecircle]
+	o4 [label=alert_neighbor_0 shape=doublecircle]
+	o5 [label=alert_neighbor_1 shape=doublecircle]
+	o6 [label=alert_neighbor_2 shape=doublecircle]
+	o7 [label=alert_neighbor_3 shape=doublecircle]
+	o8 [label=grant_entry_0 shape=doublecircle]
+	o9 [label=grant_entry_1 shape=doublecircle]
+	o10 [label=grant_entry_2 shape=doublecircle]
 	2 [label="AND 2" shape=diamond]
 	4 [label="AND 4" shape=diamond]
 	6 [label="AND 6" shape=diamond]
@@ -26,49 +25,63 @@ digraph {
 	10 [label="AND 10" shape=diamond]
 	12 [label="AND 12" shape=diamond]
 	14 [label="AND 14" shape=diamond]
+	20 [label="AND 20" shape=diamond]
+	26 [label="AND 26" shape=diamond]
+	30 [label="AND 30" shape=diamond]
+	44 [label="AND 44" shape=diamond]
 	0 [label="AND 0" shape=diamond]
 	0 [label="AND 0" shape=diamond]
 	0 [label="AND 0" shape=diamond]
-	34 [label="AND 34" shape=diamond]
 	0 [label="AND 0" shape=diamond]
-	0 [label="AND 0" shape=diamond]
-	0 [label="AND 0" shape=diamond]
-	0 [label="AND 0" shape=diamond]
-	0 [label="AND 0" shape=diamond]
-	36 [label="AND 36" shape=diamond]
-	36 [label="AND 36" shape=diamond]
+	46 [label="AND 46" shape=diamond]
+	46 [label="AND 46" shape=diamond]
 	0 [label="AND 0" shape=diamond]
 	16 [label="AND 16" shape=diamond]
-	3 -> 16
+	2 -> 16
 	5 -> 16
 	18 [label="AND 18" shape=diamond]
-	6 -> 18
-	17 -> 18
+	7 -> 18
+	16 -> 18
 	20 [label="AND 20" shape=diamond]
-	2 -> 20
-	4 -> 20
+	14 -> 20
+	18 -> 20
 	22 [label="AND 22" shape=diamond]
+	4 -> 22
 	7 -> 22
-	16 -> 22
 	24 [label="AND 24" shape=diamond]
-	9 -> 24
-	11 -> 24
+	3 -> 24
+	14 -> 24
 	26 [label="AND 26" shape=diamond]
-	21 -> 26
+	22 -> 26
 	24 -> 26
 	28 [label="AND 28" shape=diamond]
-	19 -> 28
-	26 -> 28
+	5 -> 28
+	6 -> 28
 	30 [label="AND 30" shape=diamond]
-	23 -> 30
+	24 -> 30
 	28 -> 30
 	32 [label="AND 32" shape=diamond]
-	13 -> 32
-	15 -> 32
+	23 -> 32
+	29 -> 32
 	34 [label="AND 34" shape=diamond]
-	30 -> 34
-	32 -> 34
+	3 -> 34
+	33 -> 34
 	36 [label="AND 36" shape=diamond]
-	12 -> 36
-	30 -> 36
+	19 -> 36
+	35 -> 36
+	38 [label="AND 38" shape=diamond]
+	9 -> 38
+	11 -> 38
+	40 [label="AND 40" shape=diamond]
+	15 -> 40
+	38 -> 40
+	42 [label="AND 42" shape=diamond]
+	37 -> 42
+	40 -> 42
+	44 [label="AND 44" shape=diamond]
+	13 -> 44
+	42 -> 44
+	46 [label="AND 46" shape=diamond]
+	12 -> 46
+	42 -> 46
 }

@@ -1,5 +1,5 @@
 REALIZABLE
-aag 26 12 0 13 14
+aag 44 11 2 12 31
 2
 4
 6
@@ -11,56 +11,73 @@ aag 26 12 0 13 14
 18
 20
 22
-24
-0
-0
-0
-0
+24 87
+26 88
+34
 40
+44
+60
 0
 0
 0
 0
 0
-48
-48
-52
-26 5 7
-28 3 26
-30 4 6
-32 3 31
-34 27 33
-36 29 35
-38 14 18
+85
+79
+76
+28 2 5
+30 7 28
+32 22 26
+34 30 32
+36 4 7
+38 3 32
 40 36 38
-42 15 19
-44 23 42
-46 36 44
-48 16 46
-50 17 25
-52 46 50
+42 5 6
+44 38 42
+46 24 27
+48 37 43
+50 3 49
+52 31 51
+54 23 53
+56 12 16
+58 47 56
+60 54 58
+62 13 17
+64 21 62
+66 54 64
+68 47 66
+70 14 68
+72 25 66
+74 15 27
+76 72 74
+78 71 77
+80 10 72
+82 78 80
+84 71 83
+86 72 84
+88 15 68
 i0 UAV_cargo
 i1 UAV_passenger
 i2 UAV_emergency
-i3 UAV_id
-i4 serviced
-i5 helipad_free_from_objects
-i6 launch
-i7 land
-i8 request_charging
-i9 UAV_has_cargo
-i10 request_cargo
-i11 request_permission
+i3 serviced
+i4 helipad_free_from_objects
+i5 launch
+i6 land
+i7 request_charging
+i8 UAV_has_cargo
+i9 request_cargo
+i10 request_permission
+l0 l0
+l1 l1
 o0 cargo
 o1 passenger
 o2 emergency
-o3 id
-o4 charging_complete
-o5 has_cargo
-o6 call_from_cargo
-o7 call_from_charging
-o8 occupied
-o9 permission_requested
-o10 grant_permission_0
-o11 grant_permission_1
-o12 grant_permission_2
+o3 charging_complete
+o4 has_cargo
+o5 call_from_cargo
+o6 call_from_charging
+o7 occupied
+o8 permission_requested
+o9 grant_permission_0
+o10 grant_permission_1
+o11 grant_permission_2

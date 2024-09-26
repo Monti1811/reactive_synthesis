@@ -28,7 +28,6 @@ MAIN {
   } 
 
   OUTPUTS {
-	entry_requested;
 	grant_entry[n];
 	//revoke_entry[n];
 	alert_neighbor[o];
@@ -101,7 +100,7 @@ MAIN {
 	&&[0 <= i < n](grant_entry[i] -> grant_entry[i] U (enter && grant_entry[i]));
 
 	// If there is space in the CTR, there is space until a UAV enters the CTR.
-	!occupied -> !occupied U (enter && (||[0 <= i < n](grant_entry[i])));
+	!occupied -> !occupied W (enter && (||[0 <= i < n](grant_entry[i])));
 
 	// If the UAV enters while having permission, set the CTR to occupied
 	&&[0 <= i < n](enter && grant_entry[i] -> occupied);
@@ -131,7 +130,6 @@ MAIN {
 	!passenger;
 	!cargo;
 	&&[0 <= i < n](!alert_neighbor[i]);
-	!entry_requested;
 
   }
   

@@ -84,21 +84,44 @@ the specifications from the different tasks.
 \section{Task 1}
 
 % Choices you made in modeling the controllers
+We used the provided inputs and outputs to model our controller.
+These were the most straightfoward choices to make, as we would not be able to 
+make errors in this regard.
+To save which helipad was currently being serviced, we introduced the \textit{service\_location[$n$]} variable. By restricting having only a maximum of one \textit{service\_location[$i$]} being true, we ensure that only one helipad can be serviced at a time.
+If a UAV calls for charging, eventually the UAV will be serviced, at which point the robot will deliver power to the UAV until it receives the \textit{charging_complete} signal.
+
 
 % Which assumptions were introduced and why?
 
+We only the assumption that if we deliver power, we will receive a \textit{charging\_complete} signal eventually and that there is no \textit{charging\_complete} event if no power is delivered.
+
 % Time the analysis tool took to synthesize each of the controllers
+
+The analysis tool took around 2.5 seconds to synthesize the controller.
 
 % Problems or Shortcomings
 
 
 \section{Task 2}
 
+For this task we need a robot that handles one service at a time. Further, the robot needs to indicate if it transports cargo currently and also it has to signal when the task is executed. Regarding the transportation, there needs to be a distinction between carrying cargo from UAV to warehouse and vice versa.
+
+For that, we used following modelling choices:
+
+\begin{itemize}
+	\item A UAV needs to indicate whether it contains cargo. This is important for the robot to know if it needs to unload the UAV or load it with cargo from the warehouse.
+    \item The robot can serve a certain task, indicated by output values. Further, the robot can be loaded with cargo. If the current task is executed successfully, the robot signals it.
+\end{itemize}
+
+For that task, we did not define any assumptions. The reason for that is that in theory a UAV can request the cargo robot instantly. Further, it is redundant if there is only a \textit{has\_cargo} and no \textit{call\_from\_cargo} since this case is covered in our specification. 
+
 % Choices you made in modeling the controllers
 
 % Which assumptions were introduced and why?
 
 % Time the analysis tool took to synthesize each of the controllers
+
+The analysis tool took around 4 seconds to synthesize the controller.
 
 % Problems or Shortcomings
 
@@ -106,10 +129,29 @@ the specifications from the different tasks.
 \section{Task 3}
 
 % Choices you made in modeling the controllers
+We added as input the types of UAV, so that we can identify which UAV is requesting to land, so that we can order the requests according to their priority. A permission is granted by activating the output according to the priority that was chosen, with 2 being the highest for emergency and 0 the lowest for cargo. By only allowing one request of each priority, we ensure that only the one UAV will receive the permission to land.
+We saved the current highest priority by saving the types of UAVs that requested to land. This allowed us to grant permission to the UAV with the highest priority.
 
+To grant permission, we need to have the helipad free from objects, which is modeled by the \textit{helipad\_free\_from\_objects} variable. We modeled it as an input as we can not influence if the helipad is free.
+
+The helipad may land eventually, as it may take some time for it to fly down enough to be able to land.
+
+Once a UAV has landed, it can request the cargo robot or the charging robot, which the helipad will pass onto the robots, while taking care of UAVs only being able to requests the services they can receive.
+
+We modeled the helipad to signal to everyone else if it occupied or free with the \textit{occupied} variable. 
 % Which assumptions were introduced and why?
 
+We assumed that the requests to land can not happen in the first step, this was purely a design decision. 
+Additionally, a UAV can only land if it has the permission. 
+Also the no robots can be requested if the helipad is not occupied, and if it is occupied and a request to a robot is sent, the UAV has to stay on the helipad until the robot has finished its service task. 
+UAVs can only have one type and need to send their type with the request to land.
+If permission to land is granted, the UAV will land eventually and also launch again eventually, which can only be done if the helipad is also occupied.
+As written before, only one UAV of each type can request to land.
+Finally, we stipulate that the helipad will be free from objects infinitely often so that UAVs can land.
+
 % Time the analysis tool took to synthesize each of the controllers
+
+The analysis tool took around 7 seconds to synthesize the controller.
 
 % Problems or Shortcomings
 
@@ -117,11 +159,27 @@ the specifications from the different tasks.
 
 \section{Task 4}
 
+This task requires to implement a specification for CTR's. Important here is that only one UAV can be in the CTR at once. Further, the priorities have to be regarded in case there are multiple requests for entering the CTR. If a UAV is in CTR it can either land on a helipad or launch.
+
+To model that, we realized following modelling ideas:
+
+\begin{itemize}
+    \item A UAV can either request to enter the CTR, enter the CTR, or launch or land out of it. Further, a UAV is exactly one of the following types: \textit{UAV\_emergency}, \textit{UAV\_passenger}, \textit{UAV\_cargo}. This is important for the access grant into the CTR.
+    \item The system signals the highest requesting UAV type when it is allowed to enter the CTR (the grant).
+    \item When an emergency UAV enters the CTR, we send a warning to all neighbors.
+    \item When the CTR is already full, we need to store that information to avoid unwanted behavior.
+\end{itemize}
+
+Regarding assumptions, we introduced following: As a design choise, there cannot occur a entry request from a UAV. A UAV can only enter, if the entry is granted. Further, a UAV has exactly one type (emergency, passenger, cargo) and if a UAV sends a request, it also needs to send its type. Once the entry is granted, the UAV will enter the CTR eventually. Only one UAv of each type can send a request to enter the CTR until there is space again in the CTR.\\
+To handle the problem of ensuring that only one UAV is in the CTR at once, we specified following assumptions: If the CTR is occupied, i.e. a UAV is in the CTR, the UAV will eventually land on the helipad or launch again (to ensure that a UAV will not stay in the CTR infinitely long). Also, a leave or a land can only be done when the CTR is occupied. 
+
 % Choices you made in modeling the controllers
 
 % Which assumptions were introduced and why?
 
 % Time the analysis tool took to synthesize each of the controllers
+
+The analysis tool took around 2.2 seconds to synthesize the controller.
 
 % Problems or Shortcomings
 
@@ -138,20 +196,5 @@ the specifications from the different tasks.
 
 
 
-%*********************************************************************%
-% APPENDIX                                                            %
-%*********************************************************************%
-
-\appendix
-\section{Appendix}
-% Insert the appendix here. You can alternatively include files via: \include{pathToFile}
-
-%*********************************************************************%
-% LITERATURE                                                          %
-%*********************************************************************%
-% As a recommendation JabRef might be a usefull tool for this section. Use myRefs.bib therefore
-\phantomsection
-\bibliographystyle{splncs03}
-\bibliography{literature}
 	
 \end{document}
