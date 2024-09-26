@@ -1,5 +1,6 @@
 import re
 from graphviz import Digraph
+from generate_aiger import files
 
 
 def parse_aiger_file(file_content):
@@ -73,13 +74,6 @@ def render_aiger_graph(inputs, latches, outputs, and_gates):
             print(f"Unexpected AND gate format: {components}")
 
     return dot
-
-files = [
-    't1_charging_robot',
-    't2_cargo_robot',
-    't3_helipad',
-    't4_ctr_controller',
-]
 
 for filename in files:
     # Try to open file and read it

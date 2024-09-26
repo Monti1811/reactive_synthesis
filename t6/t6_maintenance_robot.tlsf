@@ -1,11 +1,10 @@
-# Aufpassen dass Assumptions sich nicht gegenseitig ausschließen, das das Schiff auf jden Fall irgendwann starten kann, also das der Roboter die Cargo auf jeden Fall bringt und der Roboter auf jeden Fall das Schiff repariert.
+// Aufpassen dass Assumptions sich nicht gegenseitig ausschließen, das das Schiff auf jden Fall irgendwann starten kann, also das der Roboter die Cargo auf jeden Fall bringt und der Roboter auf jeden Fall das Schiff repariert.
 
 INFO {
   TITLE:       "Maintenance Robot"
-  DESCRIPTION: "Der Maintenance Robot ist 8 Helipads zugeteilt.
+  DESCRIPTION: "Der Maintenance Robot ist 4 Helipads zugeteilt.
 Er kann ein Schiff auf Schäden untersuchen und Probleme finden.
 Wenn er erkennt, dass das Schiff einen Fehler hat, kann das Schiff nicht mehr starten und muss erst vom Roboter repariert werden.
-Der Cargo Roboter muss angefordert werden, um vom Warehouse Ersatzteile anzufordern. Wenn diese da sind, kann der Maintenance Roboter das UAV reparieren, so dass es wieder losfliegen darf.
 Der Cargo Roboter muss angefordert werden, um vom Warehouse Ersatzteile anzufordern. Wenn diese da sind, kann der Maintenance Roboter das UAV reparieren, so dass es wieder losfliegen darf."
   SEMANTICS:   Mealy
   TARGET:      Mealy
@@ -13,7 +12,7 @@ Der Cargo Roboter muss angefordert werden, um vom Warehouse Ersatzteile anzuford
 
 GLOBAL {
   PARAMETERS {
-    n = 8;  
+    n = 4;  
   }
 
 }
@@ -37,31 +36,61 @@ MAIN {
   
   ASSUME {
 
-    G (defect_detected -> !launch U repaired);  // Cannot launch till UAV is repaired
+    &&[0 <= i < n](!call_from_maintenance[i]);
 
-    
+    !serviced;
+
+    // Cannot launch till UAV is repaired
+    G (defect_detected -> !launch U repaired);  
+
+    // When spare parts are needed, the cargo robot will provide the meventually.
+    G (&&[0 <= i < n](call_from_spare_parts[i] -> F serviced));
   }
 
   ASSERT {
-    // if maintenance is requested, the robot will handle the request eventually
+
+
+    // If maintenance is requested, the robot will handle the request eventually
     &&[0 <= i < n](call_from_maintenance[i] -> F (do_maintenance[i]));
 
     // once the robot begins servicing a helipad, it has to complete the maintenance
     &&[0 <= i < n]((do_maintenance[i]) -> (do_maintenance[i] U maintenance_finished || defect_detected));
 
     // Once a defect has been found, the maintenance continues till a maintenance_finished has been set
-    defect_detected -> &&[0 <= i < n]((do_maintenance[i] U maintenance_finished));
+    &&[0 <= i < n](defect_detected -> (defect_detected && do_maintenance[i]) U maintenance_finished);
 
     // As long a defect is there, we cannot finish the maintenance
     defect_detected -> !maintenance_finished;
 
+    // We call the cargo robot to deliver spare parts to the UAV
+    &&[0 <= i < n](defect_detected -> X call_from_spare_parts[i]);
 
+    // Once we receive the spare parts from the robot, we will eventually repair the UAV 
+    serviced -> F repaired;
+
+    // Once the UAV is repaired, we finish the maintenance and show that there is no defect anymore
+    repaired -> maintenance_finished && !defect_detected;
+
+    // No defect can be detected until maintenance is being done
+    !defect_detected -> !defect_detected U (||[0 <= i < n](do_maintenance[i]));
+
+    // The robot can maintain at most one UAV at any given time
+    (do_maintenance[0] && !do_maintenance[1] && !do_maintenance[2] && !do_maintenance[3]) ||
+    (!do_maintenance[0] && do_maintenance[1] && !do_maintenance[2] && !do_maintenance[3]) ||        
+    (!do_maintenance[0] && !do_maintenance[1] && do_maintenance[2] && !do_maintenance[3]) ||
+    (!do_maintenance[0] && !do_maintenance[1] && !do_maintenance[2] && do_maintenance[3]) ||
+    (&&[0 <= i < n](!(do_maintenance[i])));
 
   }
 
 
   GUARANTEES {
 
+    &&[0 <= i < n](!do_maintenance[i]);
+    !maintenance_finished;
+    !defect_detected;
+    &&[0 <= i < n](!call_from_spare_parts[i]);
+    !repaired;
 
   }
   

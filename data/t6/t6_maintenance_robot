@@ -1,0 +1,53 @@
+// AIGER Circuit
+digraph {
+	i0 [label=launch shape=ellipse]
+	i1 [label=serviced shape=ellipse]
+	i2 [label=call_from_maintenance_0 shape=ellipse]
+	i3 [label=call_from_maintenance_1 shape=ellipse]
+	i4 [label=call_from_maintenance_2 shape=ellipse]
+	i5 [label=call_from_maintenance_3 shape=ellipse]
+	l0 [label=l0 shape=box]
+	o0 [label=repaired shape=doublecircle]
+	o1 [label=defect_detected shape=doublecircle]
+	o2 [label=maintenance_finished shape=doublecircle]
+	o3 [label=call_from_spare_parts_0 shape=doublecircle]
+	o4 [label=call_from_spare_parts_1 shape=doublecircle]
+	o5 [label=call_from_spare_parts_2 shape=doublecircle]
+	o6 [label=call_from_spare_parts_3 shape=doublecircle]
+	o7 [label=do_maintenance_0 shape=doublecircle]
+	o8 [label=do_maintenance_1 shape=doublecircle]
+	o9 [label=do_maintenance_2 shape=doublecircle]
+	o10 [label=do_maintenance_3 shape=doublecircle]
+	2 [label="AND 2" shape=diamond]
+	4 [label="AND 4" shape=diamond]
+	6 [label="AND 6" shape=diamond]
+	8 [label="AND 8" shape=diamond]
+	10 [label="AND 10" shape=diamond]
+	12 [label="AND 12" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	24 [label="AND 24" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	24 [label="AND 24" shape=diamond]
+	24 [label="AND 24" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	0 [label="AND 0" shape=diamond]
+	16 [label="AND 16" shape=diamond]
+	5 -> 16
+	7 -> 16
+	18 [label="AND 18" shape=diamond]
+	9 -> 18
+	11 -> 18
+	20 [label="AND 20" shape=diamond]
+	13 -> 20
+	15 -> 20
+	22 [label="AND 22" shape=diamond]
+	18 -> 22
+	20 -> 22
+	24 [label="AND 24" shape=diamond]
+	16 -> 24
+	22 -> 24
+}
