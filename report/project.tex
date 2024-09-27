@@ -187,7 +187,27 @@ The analysis tool took around 2.2 seconds to synthesize the controller.
 
 % Choices you made in modeling the controllers
 
+We imagined the following specification for a maintenance roboter:
+
+A maintenance roboter takes care of four helipads, it can only be active at one helipad at a time.
+During maintenance, the UAV cannot launch.
+It can search a UAV for defects and find problems.
+If it finds a defect, the UAV needs to be repaired, else it is free to launch again.
+To repair the UAV, the maintenance roboter calls the cargo roboter to get spare parts from the warehouse.
+Once the cargo robot has transported the spare parts to the helipad, the maintenance roboter can proceed with the repairing process. 
+After the UAV is repaired, it can launch again.
+
+We choose to not parametrize \textit{serviced} and \textit{launch}, as we assumed that those parameters will only come from the helipad where the maintenance robot is currently doing its maintenance.
+We use \textit{do\_maintenance} to save where we do the maintenance.
+We also adapted the specifications for the cargo robot and the helipad to be able to realize the maintenance robot.
+We chose to leave \textit{do_maintenance} active once maintenance was started so that the UAV is not able to launch.
+
 % Which assumptions were introduced and why?
+
+We introduced the assumption that we can't have maintenance calls and further events in the initial step to be in line with our other specifications.
+
+We also introduced the assumption that UAV cannot launch till their maintenance is finished.
+Additionally, we ensure that once spare parts have been requested, they will be delivered eventually.
 
 % Time the analysis tool took to synthesize each of the controllers
 
