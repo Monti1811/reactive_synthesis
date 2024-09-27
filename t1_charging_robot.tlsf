@@ -32,7 +32,7 @@ MAIN {
     &&[0 <= i < n](call_from_charging[i] -> F (service_location[i]));
 
     // once the robot begins servicing a helipad, it has to complete the charging
-    &&[0 <= i < n]((service_location[i]) -> (deliver_power U charging_complete));
+    &&[0 <= i < n]((service_location[i]) -> ((deliver_power && service_location[i]) U charging_complete));
 
 	// The robot can't deliver power if it is not currently servicing a UAV
     &&[0 <= i < n](!(service_location[i])) -> !deliver_power;
