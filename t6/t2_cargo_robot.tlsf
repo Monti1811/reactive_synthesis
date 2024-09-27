@@ -24,14 +24,17 @@ MAIN {
   INPUTS {
     call_from_cargo[n]; 	  // request from helipad
     has_cargo[n];     // If it has a load, needs to be unloaded else needs to be loaded
-    call_from_spare_parts[n];
+    // ** Task 6 ** //  
+    call_from_spare_parts[n];   // request from maintenance robot
   } 
 
   OUTPUTS {
     service_warehouse[n]; // service warehouse, transports from warehouse to UAV
     service_UAV[n];       // service UAV, transports from UAV to warehouse
     loaded;               // has cargo loaded or not
-    serviced;             // when the robot has finished loading the cargo to warehouse/UAV     
+    serviced;             // when the robot has finished loading the cargo to warehouse/UAV   
+    // ** Task 6 ** //  
+    spare_parts;          // If these are spare parts should be loaded
 
   }
 
@@ -70,6 +73,13 @@ MAIN {
     &&[0 <= i < n](serviced -> !(service_warehouse[i]) && !(service_UAV[i]) && !loaded);
 
     
+    // ** Task 6 ** //  
+    // If spare parts are requested, the robot will handle the request eventually
+    &&[0 <= i < n](call_from_spare_parts[i] -> F (service_warehouse[i] && spare_parts));
+    spare_parts -> spare_parts U serviced;
+
+    // Spare parts will stay inactive till a call from spareparts will come
+    &&[0 <= i < n](!spare_parts -> !spare_parts W call_from_spare_parts[i]);
 
   }
 
@@ -81,7 +91,10 @@ MAIN {
     !loaded;
     !serviced;
     &&[0 <= i < n](!(service_warehouse[i]));
-	&&[0 <= i < n](!(service_UAV[i]));
+	  &&[0 <= i < n](!(service_UAV[i]));
+
+    // ** Task 6 ** //  
+    !spare_parts;
   }
   
 }
