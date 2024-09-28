@@ -1,0 +1,56 @@
+REALIZABLE
+aag 23 7 0 12 16
+2
+4
+6
+8
+10
+12
+14
+20
+26
+30
+44
+0
+0
+0
+0
+0
+46
+46
+0
+16 2 5
+18 7 16
+20 14 18
+22 4 7
+24 3 14
+26 22 24
+28 5 6
+30 24 28
+32 23 29
+34 3 33
+36 19 35
+38 9 11
+40 15 38
+42 37 40
+44 13 42
+46 12 42
+i0 UAV_cargo
+i1 UAV_passenger
+i2 UAV_emergency
+i3 land
+i4 leave
+i5 enter
+i6 request_entry
+o0 cargo
+o1 passenger
+o2 emergency
+o3 occupied
+o4 entry_requested
+o5 alert_neighbor_0
+o6 alert_neighbor_1
+o7 alert_neighbor_2
+o8 alert_neighbor_3
+o9 grant_entry_0
+o10 grant_entry_1
+o11 grant_entry_2

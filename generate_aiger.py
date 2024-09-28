@@ -6,7 +6,11 @@ files = [
 	't2_cargo_robot',
 	't3_helipad',
 	't4_ctr_controller',
-	't6/t6_maintenance_robot'
+	't6/t1_charging_robot',
+	't6/t2_cargo_robot',
+	't6/t3_helipad',
+	't6/t4_ctr_controller',
+	't6/t6_maintenance_robot',
 ]
 
 

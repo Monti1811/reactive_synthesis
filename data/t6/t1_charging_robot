@@ -18,75 +18,78 @@ digraph {
 	6 [label="AND 6" shape=diamond]
 	8 [label="AND 8" shape=diamond]
 	10 [label="AND 10" shape=diamond]
-	41 [label="AND 41" shape=diamond]
-	37 [label="AND 37" shape=diamond]
-	44 [label="AND 44" shape=diamond]
-	48 [label="AND 48" shape=diamond]
-	50 [label="AND 50" shape=diamond]
+	22 [label="AND 22" shape=diamond]
+	34 [label="AND 34" shape=diamond]
+	42 [label="AND 42" shape=diamond]
+	49 [label="AND 49" shape=diamond]
+	57 [label="AND 57" shape=diamond]
 	18 [label="AND 18" shape=diamond]
-	14 -> 18
-	17 -> 18
+	13 -> 18
+	15 -> 18
 	20 [label="AND 20" shape=diamond]
-	3 -> 20
+	17 -> 20
 	18 -> 20
 	22 [label="AND 22" shape=diamond]
-	17 -> 22
+	3 -> 22
 	21 -> 22
 	24 [label="AND 24" shape=diamond]
-	12 -> 24
-	15 -> 24
+	3 -> 24
+	14 -> 24
 	26 [label="AND 26" shape=diamond]
-	13 -> 26
-	14 -> 26
+	17 -> 26
+	24 -> 26
 	28 [label="AND 28" shape=diamond]
-	25 -> 28
+	21 -> 28
 	27 -> 28
 	30 [label="AND 30" shape=diamond]
-	22 -> 30
-	29 -> 30
+	12 -> 30
+	24 -> 30
 	32 [label="AND 32" shape=diamond]
-	15 -> 32
 	16 -> 32
+	31 -> 32
 	34 [label="AND 34" shape=diamond]
-	3 -> 34
-	32 -> 34
+	28 -> 34
+	33 -> 34
 	36 [label="AND 36" shape=diamond]
-	31 -> 36
-	35 -> 36
+	12 -> 36
+	14 -> 36
 	38 [label="AND 38" shape=diamond]
-	3 -> 38
+	2 -> 38
 	37 -> 38
 	40 [label="AND 40" shape=diamond]
-	21 -> 40
+	16 -> 40
 	39 -> 40
 	42 [label="AND 42" shape=diamond]
 	2 -> 42
-	13 -> 42
+	40 -> 42
 	44 [label="AND 44" shape=diamond]
-	32 -> 44
-	42 -> 44
+	13 -> 44
+	26 -> 44
 	46 [label="AND 46" shape=diamond]
-	12 -> 46
-	32 -> 46
+	16 -> 46
+	18 -> 46
 	48 [label="AND 48" shape=diamond]
-	2 -> 48
-	46 -> 48
+	45 -> 48
+	47 -> 48
 	50 [label="AND 50" shape=diamond]
-	18 -> 50
-	43 -> 50
+	16 -> 50
+	19 -> 50
 	52 [label="AND 52" shape=diamond]
-	22 -> 52
-	28 -> 52
+	37 -> 52
+	50 -> 52
 	54 [label="AND 54" shape=diamond]
-	45 -> 54
-	47 -> 54
+	17 -> 54
+	30 -> 54
 	56 [label="AND 56" shape=diamond]
 	53 -> 56
-	54 -> 56
+	55 -> 56
 	58 [label="AND 58" shape=diamond]
-	21 -> 58
-	49 -> 58
+	25 -> 58
+	40 -> 58
 	60 [label="AND 60" shape=diamond]
-	36 -> 60
-	45 -> 60
+	23 -> 60
+	35 -> 60
+	62 [label="AND 62" shape=diamond]
+	28 -> 62
+	53 -> 62
 }

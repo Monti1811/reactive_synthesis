@@ -1,0 +1,90 @@
+REALIZABLE
+aag 47 13 2 13 32
+2
+4
+6
+8
+10
+12
+14
+16
+18
+20
+22
+24
+26
+28 93
+30 94
+0
+38
+44
+48
+64
+0
+0
+0
+0
+0
+91
+85
+82
+32 6 9
+34 11 32
+36 26 30
+38 34 36
+40 8 11
+42 7 36
+44 40 42
+46 9 10
+48 42 46
+50 28 31
+52 41 47
+54 7 53
+56 35 55
+58 27 57
+60 16 20
+62 51 60
+64 58 62
+66 5 17
+68 21 25
+70 66 68
+72 58 70
+74 51 72
+76 18 74
+78 29 72
+80 19 31
+82 78 80
+84 77 83
+86 14 78
+88 84 86
+90 77 89
+92 78 90
+94 19 74
+i0 maintenance_finished
+i1 request_maintenance
+i2 UAV_cargo
+i3 UAV_passenger
+i4 UAV_emergency
+i5 serviced
+i6 helipad_free_from_objects
+i7 launch
+i8 land
+i9 request_charging
+i10 UAV_has_cargo
+i11 request_cargo
+i12 request_permission
+l0 l0
+l1 l1
+o0 call_from_maintenance
+o1 cargo
+o2 passenger
+o3 emergency
+o4 charging_complete
+o5 has_cargo
+o6 call_from_cargo
+o7 call_from_charging
+o8 occupied
+o9 permission_requested
+o10 grant_permission_0
+o11 grant_permission_1
+o12 grant_permission_2

@@ -37,13 +37,13 @@ digraph {
 	0 [label="AND 0" shape=diamond]
 	16 [label="AND 16" shape=diamond]
 	5 -> 16
-	7 -> 16
+	15 -> 16
 	18 [label="AND 18" shape=diamond]
+	7 -> 18
 	9 -> 18
-	11 -> 18
 	20 [label="AND 20" shape=diamond]
+	11 -> 20
 	13 -> 20
-	15 -> 20
 	22 [label="AND 22" shape=diamond]
 	18 -> 22
 	20 -> 22
